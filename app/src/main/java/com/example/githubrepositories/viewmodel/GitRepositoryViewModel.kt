@@ -6,27 +6,31 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.githubrepositories.model.GitRepositoryList
 import com.example.githubrepositories.service.ApiService
+import com.example.githubrepositories.service.RetrofitBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class GitRepositoryViewModel(val apiService: ApiService): ViewModel() {
+class GitRepositoryViewModel : ViewModel() {
 
-     private var gitRepositoryListLiveData: MutableLiveData<GitRepositoryList>
+    private val apiService: ApiService
+    private var gitRepositoryListLiveData: MutableLiveData<GitRepositoryList>
 
-     init {
-         gitRepositoryListLiveData = MutableLiveData()
-     }
+    init {
+        apiService = RetrofitBuilder.getApiService()
+        gitRepositoryListLiveData = MutableLiveData()
+    }
 
-     fun gitRepositoryObserver(): MutableLiveData<GitRepositoryList> {
-         return gitRepositoryListLiveData
-     }
+    fun gitRepositoryObserver(): MutableLiveData<GitRepositoryList> {
+        return gitRepositoryListLiveData
+    }
 
-     fun fetchGitRepositories() {
-         viewModelScope.launch(Dispatchers.IO) {
+    fun fetchGitRepositories() {
+        Log.i(this.javaClass.simpleName, "fetchGitRepositories called")
+        viewModelScope.launch(Dispatchers.IO) {
             val repositoryList = apiService.fetchGitRepositories("ny")
-             Log.i(this.javaClass.name, "Git repositories count: " + repositoryList.size)
-             gitRepositoryListLiveData.postValue(repositoryList)
-         }
+            Log.i(this.javaClass.name, "Git repositories count: " + repositoryList.size)
+            gitRepositoryListLiveData.postValue(repositoryList)
+        }
     }
 
 }

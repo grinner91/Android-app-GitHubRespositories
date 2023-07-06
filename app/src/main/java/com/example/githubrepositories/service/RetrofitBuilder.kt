@@ -5,7 +5,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitBuilder {
     companion object {
-        private val baseUrl = "//https://api.github.com/repositories?q=ny"
+        //"https://api.github.com/repositories?q=ny"
+        //private val baseUrl = "https://api.github.com"
+        private const val baseUrl = "https://api.github.com"
 
         private val retrofitInstance: Retrofit = Retrofit
             .Builder()
