@@ -1,6 +1,6 @@
 package com.example.githubrepositories.model
 
-data class GitRepositoryListItem(
+data class GitRepositoryItem(
     val archive_url: String,
     val assignees_url: String,
     val blobs_url: String,
